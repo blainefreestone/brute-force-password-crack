@@ -30,3 +30,16 @@ def get_password_input():
         print('Password must be lowercase alphanumeric characters.')
         return get_password_input()
     return password
+
+# find time taken to make individual guesses
+def find_time_per_guess():
+    chars = string.ascii_lowercase + string.digits
+    start = time.time()
+    for char in chars:
+        guess = char
+    end = time.time()
+    return end - start
+
+
+if __name__ == '__main__':
+    print(find_time_per_guess())
