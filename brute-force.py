@@ -19,7 +19,7 @@ def guess_password(password):
             if guess == password:
                 end = time.time()
                 distance = end - start
-                return (f'\rPassword is {guess}. Found in {attempts} guesses and {distance} seconds.')
+                return (f'\rPassword is "{guess}". Found in {attempts} guesses and {distance} seconds.')
             print('\r' + guess, end='')
     return 'Password not in the list'
 
@@ -33,12 +33,12 @@ def get_password_input():
 
 # find time taken to make individual guesses
 def find_time_per_guess():
-    chars = string.ascii_lowercase + string.digits
+    test_password = 'a'
     start = time.time()
-    for char in chars:
-        guess = char
+    guess_password(test_password)
     end = time.time()
-    return end - start
+    distance = end - start
+    return distance / calculate_guesses(test_password)
 
 # calculate number of guesses based on password 
 def calculate_guesses(password):
@@ -62,5 +62,5 @@ def estimate_time(password):
 
 if __name__ == '__main__':
     password = get_password_input()
-    print(f"A password of length {len(password)} could take {calculate_guesses(password)} guesses to guess.")
+    print(f'\nYour password should take about {estimate_time(password)} seconds to brute force.')
     print(guess_password(password))
