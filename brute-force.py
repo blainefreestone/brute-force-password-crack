@@ -40,6 +40,22 @@ def find_time_per_guess():
     end = time.time()
     return end - start
 
+# calculate number of guesses based on password length
+def calculate_guesses(password):
+    chars = string.ascii_lowercase + string.digits
+
+    total_guesses = len(chars) ** len(password)
+
+    return total_guesses
+
+# estimate time taken to brute force password
+def estimate_time(password):
+    total_guesses = calculate_guesses(password)
+    time_per_guess = find_time_per_guess()
+    time_taken = total_guesses * time_per_guess
+    return time_taken
 
 if __name__ == '__main__':
-    print(find_time_per_guess())
+    password = get_password_input()
+    print(f"A password of length {len(password)} could take {estimate_time(password)} seconds to guess.")
+    print(guess_password(password))
