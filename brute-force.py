@@ -23,11 +23,11 @@ def guess_password(password):
             print('\r' + guess, end='')
     return 'Password not in the list'
 
-# get password input from user and verify that it is lowercase alphanumeric
+# get password input from user; verify that password only contains lowercase characters or digits
 def get_password_input():
     password = input('Enter password to brute force: ')
-    if not password.islower():
-        print('Password must be lowercase alphanumeric characters.')
+    if not password.islower() and not password.isdigit():
+        print('Password must only contain lowercase characters or digits.')
         return get_password_input()
     return password
 
@@ -40,13 +40,18 @@ def find_time_per_guess():
     end = time.time()
     return end - start
 
-# calculate number of guesses based on password length
+# calculate number of guesses based on password 
 def calculate_guesses(password):
     chars = string.ascii_lowercase + string.digits
+    total_guesses = 0
 
-    total_guesses = len(chars) ** len(password)
+    for i in range(1, len(password)):
+        total_guesses += len(chars) ** i
 
-    return total_guesses
+    for i in range(len(password)):
+        total_guesses += chars.index(password[i]) * (len(chars) ** (len(password) - i - 1))
+
+    return total_guesses + 1
 
 # estimate time taken to brute force password
 def estimate_time(password):
@@ -57,5 +62,5 @@ def estimate_time(password):
 
 if __name__ == '__main__':
     password = get_password_input()
-    print(f"A password of length {len(password)} could take {estimate_time(password)} seconds to guess.")
+    print(f"A password of length {len(password)} could take {calculate_guesses(password)} guesses to guess.")
     print(guess_password(password))
